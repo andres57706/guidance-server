@@ -8,6 +8,8 @@ var app = require('../app');
 var debug = require('debug')('src:server');
 var http = require('http');
 var io = require('../services/socket_io');
+
+// only for testing purposes
 var SerialPort = require('../services/serial_port_test');
 
 /**
@@ -23,6 +25,7 @@ app.set('port', port);
 
 var server = http.createServer(app);
 
+// socket.io initialization
 io.start(server);
 
 /**
@@ -92,7 +95,10 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 
-
+  // serial port initialization
   var serialPort = new SerialPort();
+  serialPort.on('error', (err) => {
+    debug('SerialPort: error: ' + err)
+  });
 
 }
