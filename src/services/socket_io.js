@@ -17,6 +17,11 @@ exports.start = (srv) => {
 
 }
 
+/**
+ * Emit data event to the web browser client
+ * @param {string} sensorId used to identify wich sensor retrieves information
+ * @param {*} value data retrieved from sensor throught serial port
+ */
 exports.sendSerialPortData = (sensorId, value) => {
     // console.log('emit to socket');
     if (socket == undefined) {
@@ -29,5 +34,5 @@ exports.sendSerialPortData = (sensorId, value) => {
         });
     }
 
-    
+
 }
