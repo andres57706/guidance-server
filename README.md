@@ -35,3 +35,5 @@ The server will start listening on localhost:3000
 The server it's already receiving data from the **serial_port_test** module this is only for developing purposes. You must adapt the **serial_port** module (file path location: /src/services/serial_port.js) in order to receive data from you serial port
 
 To use the **serial_port** module yout have to change the module used in www file (located in ./src/bin/www)
+
+- To change the status view modify the view located in (./src/views/status.ejs)
