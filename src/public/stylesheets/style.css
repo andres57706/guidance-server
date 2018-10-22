@@ -6,3 +6,20 @@ body {
 a {
   color: #00B7FF;
 }
+
+.parking-spot {
+  font-size: 2em;
+  border: solid rgb(175, 171, 171);
+  height: 8em;
+  width: 8em;
+  text-align: center;
+  line-height: 8em;
+}
+
+.occupied {
+  background: #EF5350
+}
+
+.free {
+  background: #66BB6A
+}

@@ -12,13 +12,26 @@
 <script>
   $(function () {
     var socket = io();
-    
-    socket.on('hello', function(msg) {
+
+    socket.on('hello', function (msg) {
       console.log('Hello message from server: ' + msg);
     });
 
-    socket.on('data', function(data) {
+    socket.on('data', function (data) {
       console.log(data);
+
+
+      switch (data.value) {
+        case 'occupied':
+          $('#' + data.sensorId).removeClass('free');
+          $('#' + data.sensorId).addClass('occupied');
+          break;
+        case 'free':
+          $('#' + data.sensorId).removeClass('occupied');
+          $('#' + data.sensorId).addClass('free');
+          break;
+        default:
+      }
     });
   });
 </script>
@@ -30,6 +43,20 @@
   <p>Welcome to
     <%= title %>
   </p>
+
+  <table class="parking-spot-table">
+    <% for(var i=1; i <= sensorsCount/3; i++ ) { %>
+    <tr>
+      <% for(var j=1; j <= sensorsCount; j++ ) { %>
+      <td>
+        <div class="parking-spot" id="<%= j %>">
+          <%= j %>
+        </div>
+      </td>
+      <% } %>
+    </tr>
+    <% } %>
+  </table>
 </body>
 
 </html>
