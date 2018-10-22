@@ -24,13 +24,19 @@ class SerialPortService extends EventEmitter {
             debug('open port');
 
             port.on('data', function (data) {
-                debug('received data: %s', JSON.stringify(data));
+                debug('received data: sensorId: %s, status: %s', data[0], data[1]);
 
-                io.sendSerialPortData('01', data);
+
+                if (!Buffer.isBuffer(data)) {
+                    debug('data parsed is not a buffer');
+                    return;
+                }
+                io.sendSerialPortData(data[0], (data[1] == 1) ? 'occupied' : 'free');
 
                 setTimeout(() => {
                     debug('sending data to loopback serial port');
-                    port.write('hola');
+                    let buffer = new Buffer([Math.round(Math.random() * 3), Math.round(Math.random())]);
+                    port.write(buffer);
                 }, 500)
             });
         });
