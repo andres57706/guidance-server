@@ -10,9 +10,25 @@ var http = require('http');
 var io = require('../services/socket_io');
 
 // only for testing purposes
-// var SerialPort = require('../services/serial_port_test');
+var SerialPortTest = require('../services/serial_port_test');
 
+// serial port instance service
 var SerialPort = require('../services/serial_port');
+
+
+// Serial port Env Variable validation
+switch (process.env.SERIAL_PORT) {
+  case undefined:
+  case null:
+    debug('ENV variale SERIAL_PORT not valid');
+    process.exit();
+    break;
+  default:
+    break;
+}
+
+
+
 
 /**
  * Get port from environment and store in Express.
@@ -86,6 +102,7 @@ function onError(error) {
   }
 }
 
+
 /**
  * Event listener for HTTP server "listening" event.
  */
@@ -97,10 +114,35 @@ function onListening() {
     'port ' + addr.port;
   debug('Listening on ' + bind);
 
-  // serial port initialization
-  var serialPort = new SerialPort('COM3');
-  serialPort.on('error', (err) => {
-    debug('SerialPort: error: ' + err)
-  });
+  // confirure serial port depend on SERIAL_PORT NEV variable
+  configureSerialPort(process.env.SERIAL_PORT);
+
+}
+
+
+function configureSerialPort(port) {
+
+  debug('Serial port mode: %s', port)
+
+  // if port is in TEST MODE
+  if (port === 'TEST') {
+
+    // serial port initialization
+    var serialPort = new SerialPortTest();
+    serialPort.on('error', (err) => {
+      debug('SerialPort: error: ' + err)
+    });
+  }
+  // If port is NOT in TEST MODE
+  else {
+
+    // serial port TEST initialization
+    var serialPort = new SerialPort(port);
+    serialPort.on('error', (err) => {
+      debug('SerialPort: error: ' + err)
+    });
+  }
+
+
 
 }
