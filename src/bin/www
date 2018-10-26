@@ -9,12 +9,6 @@ var debug = require('debug')('src:server');
 var http = require('http');
 var io = require('../services/socket_io');
 
-// only for testing purposes
-var SerialPortTest = require('../services/serial_port_test');
-
-// serial port instance service
-var SerialPort = require('../services/serial_port');
-
 
 // Serial port Env Variable validation
 switch (process.env.SERIAL_PORT) {
@@ -124,9 +118,11 @@ function configureSerialPort(port) {
 
   debug('Serial port mode: %s', port)
 
-  // if port is in TEST MODE
+  // // if port is in TEST MODE
   if (port === 'TEST') {
 
+    // only for testing purposes
+var SerialPortTest = require('../services/serial_port_test');
     // serial port initialization
     var serialPort = new SerialPortTest();
     serialPort.on('error', (err) => {
@@ -136,13 +132,13 @@ function configureSerialPort(port) {
   // If port is NOT in TEST MODE
   else {
 
-    // serial port TEST initialization
-    var serialPort = new SerialPort(port);
+    // serial port instance service
+var SerialPort = require('../services/serial_port');
+    // serial port initialization
+    var serialPort = new SerialPort('COM5');
     serialPort.on('error', (err) => {
       debug('SerialPort: error: ' + err)
     });
   }
-
-
 
 }

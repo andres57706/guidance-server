@@ -3,8 +3,8 @@
   "version": "1.1.0",
   "private": true,
   "scripts": {
-    "start": "SERIAL_PORT=COM4 DEBUG=* node ./bin/www",
-    "debug": "SERIAL_PORT=TEST DEBUG=* nodemon --inspect ./bin/www"
+    "start": "set SERIAL_PORT=COM5&&set DEBUG=*&&node ./bin/www",
+    "debug": "set SERIAL_PORT=TEST&&set DEBUG=*&&nodemon --inspect ./bin/www"
   },
   "dependencies": {
     "cookie-parser": "~1.4.3",

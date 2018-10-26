@@ -1,6 +1,7 @@
 var SerialPort = require("serialport");
 const EventEmitter = require("events");
 var io = require("./socket_io");
+var debug = require('debug')('serial_port');
 
 class SerialPortService extends EventEmitter {
 
@@ -9,9 +10,9 @@ class SerialPortService extends EventEmitter {
      */
     constructor(port) {
         super();
-        this.port = new SerialPort(port, {
-            baudrate: 9600,
-            parser: serialport.parsers.readline("\n")
+        var port = new SerialPort(port, {
+            baudRate: 9600
+            // parser: serialport.parsers.readline("\n")
         });
         // Read the port data
         port.on("open", function () {
